@@ -1,11 +1,24 @@
-import React from 'react';
+import {useNavigation} from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
 import {Text, View, StyleSheet, TouchableHighlight} from 'react-native';
+import {set} from 'react-native-reanimated';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import colors from '../../config/colors';
 
+export let myname = '';
 function AppListing({title, icon}) {
+  const [haza, setHaza] = useState();
+  useEffect(() => {
+    myname = haza;
+  });
+
+  const navigation = useNavigation();
   return (
-    <TouchableHighlight onPress={() => {}}>
+    <TouchableHighlight
+      onPress={() => {
+        setHaza(title);
+        navigation.navigate('AllLaptopProducts');
+      }}>
       <View style={styles.list}>
         <MaterialCommunityIcons name={icon} size={50} style={[styles.icon]} />
         <Text style={styles.title}>{title}</Text>

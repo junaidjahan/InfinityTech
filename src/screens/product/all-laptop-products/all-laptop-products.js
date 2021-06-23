@@ -1,28 +1,35 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, Text, View, StyleSheet} from 'react-native';
-import AppListing from '../../../components/listing-component/AppListing';
+import {Text, View, StyleSheet, Image, FlatList} from 'react-native';
+import ProductCard from '../../../components/card/product-card';
+import {myname} from '../../../components/listing-component/AppListing';
 import colors from '../../../config/colors';
 import firestore from '@react-native-firebase/firestore';
 
-function LaptopProducts(props) {
+function AllLaptopProducts(props) {
+  let title = '' + myname;
   const [laptops, setLaptops] = useState();
 
   useEffect(() => {
     const myData = async () => {
-      const snapshot = await firestore().collection('Laptops').get();
+      const snapshot = await firestore().collection('Acer').get();
       setLaptops(snapshot.docs.map((doc) => doc.data()));
     };
 
     myData();
+    console.log(laptops);
   }, []);
 
   return (
-    <View style={style.container}>
+    <View style={styles.conatiner}>
       <FlatList
         data={laptops}
         keyExtractor={(laptops) => laptops.id}
         renderItem={({item}) => (
-          <AppListing title={item.title} icon="laptop-mac" />
+          <ProductCard
+            title={item.title}
+            subtitle={item.price}
+            image={item.image}
+          />
         )}
         ItemSeparatorComponent={() => (
           <View
@@ -38,10 +45,12 @@ function LaptopProducts(props) {
   );
 }
 
-const style = StyleSheet.create({
-  container: {
-    marginTop: 20,
+const styles = StyleSheet.create({
+  conatiner: {
+    flex: 1,
+    backgroundColor: colors.body,
+    padding: 20,
   },
 });
 
-export default LaptopProducts;
+export default AllLaptopProducts;

@@ -1,30 +1,27 @@
 import 'react-native-gesture-handler';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import React, {useState, useEffect} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  SafeAreaView,
-  Image,
-  ScrollView,
-  FlatList,
-} from 'react-native';
-import AppListing from './src/components/listing-component/AppListing';
+import {StyleSheet, Button} from 'react-native';
 import LoginScreen from './src/screens/login-screen/LoginScreen';
 import {NavigationContainer} from '@react-navigation/native';
-
 import {createStackNavigator} from '@react-navigation/stack';
 import CategoryScreen from './src/screens/category/CategoryScreen';
 import LaptopProducts from './src/screens/product/laptop-products/LaptopProducts';
 import MobileProducts from './src/screens/product/mobile-products/MobileProducts';
 import Welcome from './src/screens/welcome-screen/Welcome';
 import SignUpScreen from './src/screens/sign-up/SignUpScreen';
-import * as firebase from 'firebase';
-import {firebaseConfig} from './config';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+import LoginWelcomeScreen from './src/screens/login-welcome/login-welcome-screen';
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem,
+} from '@react-navigation/drawer';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Animated, {useAnimatedStyle} from 'react-native-reanimated';
+import AllLaptopProducts from './src/screens/product/all-laptop-products/all-laptop-products';
 
 // firebase.default.initializeApp(firebaseConfig);
 const Stack = createStackNavigator();
@@ -39,7 +36,7 @@ export default function App() {
   }
 
   useEffect(() => {
-    signOut();
+    // signOut();
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
   }, []);
@@ -48,6 +45,9 @@ export default function App() {
       .signOut()
       .then(() => console.log('User signed out!'));
   };
+
+  const Drawer = createDrawerNavigator();
+  const Tab = createBottomTabNavigator();
 
   if (initializing) return null;
 
@@ -67,17 +67,63 @@ export default function App() {
     );
   }
 
+  // if (user) {
+  //   return (
+  //     <NavigationContainer>
+  //       <Drawer.Navigator
+  //         initialRouteName="LoginWelcomeScreen"
+  //         screenOptions={{
+  //           headerShown: false,
+  //         }}
+  //         drawerContent={(props) => {
+  //           return (
+  //             <DrawerContentScrollView {...props}>
+  //               <DrawerItemList {...props} />
+  //               <DrawerItem
+  //                 label="Logout"
+  //                 onPress={() => alert('Button clicked')}
+  //               />
+  //             </DrawerContentScrollView>
+  //           );
+  //         }}>
+  //         <Drawer.Screen
+  //           name="LoginWelcomeScreen"
+  //           component={LoginWelcomeScreen}
+  //           options={{title: 'Welcome'}}
+  //         />
+  //         <Drawer.Screen
+  //           name="CategoryScreen"
+  //           component={CategoryScreen}
+  //           options={{title: 'Category'}}
+  //         />
+  //         <Drawer.Screen
+  //           name="LaptopProducts"
+  //           component={LaptopProducts}
+  //           options={{title: 'Laptops'}}
+  //         />
+  //         <Drawer.Screen
+  //           name="MobileProducts"
+  //           component={MobileProducts}
+  //           options={{title: 'Mobiles'}}
+  //         />
+  //         <Drawer.Screen
+  //           name="AllLaptopProducts"
+  //           component={AllLaptopProducts}
+  //           options={{title: 'All Products'}}
+  //         />
+  //       </Drawer.Navigator>
+  //     </NavigationContainer>
+  //   );
+  // }
+
   if (user) {
     return (
       <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}>
-          <Stack.Screen name="CategoryScreen" component={CategoryScreen} />
-          <Stack.Screen name="LaptopProducts" component={LaptopProducts} />
-          <Stack.Screen name="MobileProducts" component={MobileProducts} />
-        </Stack.Navigator>
+        <Tab.Navigator>
+          <Tab.Screen name="CategoryScreen" component={CategoryScreen} />
+          <Tab.Screen name="LaptopProducts" component={LaptopProducts} />
+          <Tab.Screen name="AllLaptopProducts" component={AllLaptopProducts} />
+        </Tab.Navigator>
       </NavigationContainer>
     );
   }
