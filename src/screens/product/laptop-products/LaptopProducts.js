@@ -44,6 +44,7 @@ function LaptopProducts(props) {
 const style = StyleSheet.create({
   container: {
     marginTop: 20,
+    bottom: 10,
   },
 });
 

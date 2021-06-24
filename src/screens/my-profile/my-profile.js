@@ -8,8 +8,8 @@ import firestore from '@react-native-firebase/firestore';
 
 function MyProfile(props) {
   const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState('');
-  const [star, setStar] = useState('');
+  const [user, setUser] = useState({});
+  const [star, setStar] = useState({});
 
   function onAuthStateChanged(user) {
     setUser(user);
@@ -19,20 +19,18 @@ function MyProfile(props) {
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     const myData = async () => {
-      await firestore()
-        .collection('users')
-        .doc(user.email)
-        .get()
-        .then((snapShot) => {
-          setStar(snapShot.data());
-        })
-        .catch(() => {
-          console.log('something went wrong');
-        });
-      // setData(snapshot.docs.map((doc) => doc.data()));
+      // const snapshot = await firestore()
+      //   .collection('users')
+      //   .doc(user.email)
+      //   .get();
+
+      // setStar(snapshot.data());
+      const snapshot = await firestore().collection(myname).get();
+      setStar(snapshot.docs.map((doc) => doc.data())[0]);
     };
 
     myData();
+    console.log(star);
 
     return subscriber; // unsubscribe on unmount
   });
@@ -55,14 +53,15 @@ function MyProfile(props) {
         <Text style={styles.title}>Name</Text>
         <View style={styles.inputCard}>
           <Text style={styles.data}>{star.UserName}</Text>
+          {/* <Text style={styles.data}>{JSON.stringify(star)}</Text> */}
         </View>
         <Text style={styles.title}>Phone Number</Text>
         <View style={styles.inputCard}>
-          <Text style={styles.data}>{star.Phone}</Text>
+          {/* <Text style={styles.data}>{star.Phone}</Text> */}
         </View>
         <Text style={styles.title}>Email</Text>
         <View style={styles.inputCard}>
-          <Text style={styles.data}>{star.Email}</Text>
+          {/* <Text style={styles.data}>{star.Email}</Text> */}
         </View>
       </View>
       <TouchableHighlight
