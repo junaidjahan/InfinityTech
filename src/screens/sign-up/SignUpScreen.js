@@ -12,6 +12,7 @@ import BaseText from '../../components/base-text/BaseText.';
 import APPButton from '../../components/button/APPButton';
 import {useNavigation} from '@react-navigation/core';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 function SignUpScreen(props) {
   const [UserName, setUserName] = useState();
@@ -20,9 +21,6 @@ function SignUpScreen(props) {
   const [Password, setPassword] = useState();
   useEffect(() => {});
   const signup = () => {
-    
-    var count = ''+this.state.data.length;
-    
     if (Email === undefined) {
       alert('Email is required');
     } else if (Password === undefined) {
@@ -31,22 +29,22 @@ function SignUpScreen(props) {
       alert('User Name is required');
     } else if (PhoneNumber === undefined) {
       alert('Phone Number is required');
-    }else {
-      firestore()
-      .collection('users')
-      .doc(count)
-      .set({
-        UserName: UserName,
-        Pone: PhoneNumber,
-        key: count,
-      })
-      .then(() => {
-        console.log('User added!');
-      }).then(() => {
-        auth()
+    } else {
+      auth()
         .createUserWithEmailAndPassword(Email, Password)
         .then(() => {
-          console.log('User account created & signed in!');
+          firestore()
+            .collection('users')
+            .doc(Email)
+            .set({
+              UserName: UserName,
+              Phone: PhoneNumber,
+              Email: Email,
+              key: UserName + 'id',
+            })
+            .then(() => {
+              console.log('User added!');
+            });
         })
         .catch((error) => {
           if (error.code === 'auth/email-already-in-use') {
@@ -56,10 +54,10 @@ function SignUpScreen(props) {
           } else {
             alert(error);
           }
-        });});
-      
+        });
     }
   };
+
   const navigation = useNavigation();
   return (
     <ScrollView style={styles.screen}>

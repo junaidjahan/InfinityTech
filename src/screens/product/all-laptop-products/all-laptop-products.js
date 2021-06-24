@@ -11,7 +11,7 @@ function AllLaptopProducts(props) {
 
   useEffect(() => {
     const myData = async () => {
-      const snapshot = await firestore().collection('Acer').get();
+      const snapshot = await firestore().collection(myname).get();
       setLaptops(snapshot.docs.map((doc) => doc.data()));
     };
 

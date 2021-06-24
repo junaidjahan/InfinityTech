@@ -1,6 +1,12 @@
 import {useNavigation} from '@react-navigation/core';
 import React from 'react';
-import {View, StyleSheet, Text, TouchableWithoutFeedback} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  ScrollView,
+} from 'react-native';
 import Card from '../../components/card/Card';
 import colors from '../../config/colors';
 
@@ -45,8 +51,8 @@ function CategoryScreen(props) {
 
 const style = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: colors.body,
+    flex: 1,
   },
   category: {
     flex: 8,

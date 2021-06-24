@@ -15,6 +15,7 @@ function LoginWelcomeScreen(props) {
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    console.log(user);
     return subscriber; // unsubscribe on unmount
   }, []);
 

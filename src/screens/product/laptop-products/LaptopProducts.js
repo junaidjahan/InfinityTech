@@ -1,8 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, Text, View, StyleSheet} from 'react-native';
+import {FlatList, Text, View, StyleSheet, ScrollView} from 'react-native';
 import AppListing from '../../../components/listing-component/AppListing';
 import colors from '../../../config/colors';
 import firestore from '@react-native-firebase/firestore';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import AllLaptopProducts from '../all-laptop-products/all-laptop-products';
 
 function LaptopProducts(props) {
   const [laptops, setLaptops] = useState();
