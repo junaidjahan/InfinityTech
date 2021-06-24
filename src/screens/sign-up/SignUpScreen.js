@@ -20,12 +20,30 @@ function SignUpScreen(props) {
   const [Password, setPassword] = useState();
   useEffect(() => {});
   const signup = () => {
+    
+    var count = ''+this.state.data.length;
+    
     if (Email === undefined) {
       alert('Email is required');
     } else if (Password === undefined) {
       alert('Password is required');
-    } else {
-      auth()
+    } else if (UserName === undefined) {
+      alert('User Name is required');
+    } else if (PhoneNumber === undefined) {
+      alert('Phone Number is required');
+    }else {
+      firestore()
+      .collection('users')
+      .doc(count)
+      .set({
+        UserName: UserName,
+        Pone: PhoneNumber,
+        key: count,
+      })
+      .then(() => {
+        console.log('User added!');
+      }).then(() => {
+        auth()
         .createUserWithEmailAndPassword(Email, Password)
         .then(() => {
           console.log('User account created & signed in!');
@@ -38,7 +56,8 @@ function SignUpScreen(props) {
           } else {
             alert(error);
           }
-        });
+        });});
+      
     }
   };
   const navigation = useNavigation();
