@@ -5,19 +5,19 @@ import {set} from 'react-native-reanimated';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import colors from '../../config/colors';
 
-export let myname = '';
-function AppListing({title, icon}) {
-  const [haza, setHaza] = useState();
+export let myMobile = '';
+function MobileAppListing({title, icon}) {
+  const [mobile, setMobile] = useState();
   useEffect(() => {
-    myname = haza;
+    myMobile = mobile;
   });
 
   const navigation = useNavigation();
   return (
     <TouchableHighlight
       onPress={() => {
-        setHaza(title);
-        navigation.navigate('AllLaptopProducts');
+        setMobile(title);
+        navigation.navigate('AllMobileProducts');
       }}>
       <View style={styles.list}>
         <MaterialCommunityIcons name={icon} size={50} style={[styles.icon]} />
@@ -66,4 +66,4 @@ const styles = new StyleSheet.create({
   },
 });
 
-export default AppListing;
+export default MobileAppListing;

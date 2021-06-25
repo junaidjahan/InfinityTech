@@ -27,6 +27,7 @@ import colors from './src/config/colors';
 import LoginWelcomeScreen from './src/screens/login-welcome/login-welcome-screen';
 import MyProfile from './src/screens/my-profile/my-profile';
 import CategoryRoutes from './category-routes';
+import Orders from './src/screens/orders/orders';
 
 // firebase.default.initializeApp(firebaseConfig);
 const Stack = createStackNavigator();
@@ -71,55 +72,6 @@ export default function App() {
       </NavigationContainer>
     );
   }
-
-  // if (user) {
-  //   return (
-  //     <NavigationContainer>
-  //       <Drawer.Navigator
-  //         initialRouteName="LoginWelcomeScreen"
-  //         screenOptions={{
-  //           headerShown: false,
-  //         }}
-  //         drawerContent={(props) => {
-  //           return (
-  //             <DrawerContentScrollView {...props}>
-  //               <DrawerItemList {...props} />
-  //               <DrawerItem
-  //                 label="Logout"
-  //                 onPress={() => alert('Button clicked')}
-  //               />
-  //             </DrawerContentScrollView>
-  //           );
-  //         }}>
-  //         <Drawer.Screen
-  //           name="LoginWelcomeScreen"
-  //           component={LoginWelcomeScreen}
-  //           options={{title: 'Welcome'}}
-  //         />
-  //         <Drawer.Screen
-  //           name="CategoryScreen"
-  //           component={CategoryScreen}
-  //           options={{title: 'Category'}}
-  //         />
-  //         <Drawer.Screen
-  //           name="LaptopProducts"
-  //           component={LaptopProducts}
-  //           options={{title: 'Laptops'}}
-  //         />
-  //         <Drawer.Screen
-  //           name="MobileProducts"
-  //           component={MobileProducts}
-  //           options={{title: 'Mobiles'}}
-  //         />
-  //         <Drawer.Screen
-  //           name="AllLaptopProducts"
-  //           component={AllLaptopProducts}
-  //           options={{title: 'All Products'}}
-  //         />
-  //       </Drawer.Navigator>
-  //     </NavigationContainer>
-  //   );
-  // }
 
   if (user) {
     return (
@@ -193,8 +145,8 @@ export default function App() {
             }}
           />
           <Tab.Screen
-            name="LaptopProducts"
-            component={LaptopProducts}
+            name="Orders"
+            component={Orders}
             options={{
               tabBarIcon: ({focused}) => {
                 return (

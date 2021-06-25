@@ -1,18 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import {Text, View, StyleSheet, Image, FlatList} from 'react-native';
 import ProductCard from '../../../components/card/product-card';
-import {myname} from '../../../components/listing-component/LaptopAppListing';
+import {myname as myMobile} from '../../../components/listing-component/LaptopAppListing';
 import colors from '../../../config/colors';
 import firestore from '@react-native-firebase/firestore';
 
-function AllLaptopProducts(props) {
-  let title = '' + myname;
-  const [laptops, setLaptops] = useState();
+function AllMobileProducts(props) {
+  let title = '' + myMobile;
+  const [mobiles, setMobiles] = useState();
 
   useEffect(() => {
     const myData = async () => {
-      const snapshot = await firestore().collection(myname).get();
-      setLaptops(snapshot.docs.map((doc) => doc.data()));
+      const snapshot = await firestore().collection(myMobile).get();
+      setMobiles(snapshot.docs.map((doc) => doc.data()));
     };
 
     myData();
@@ -21,7 +21,7 @@ function AllLaptopProducts(props) {
   return (
     <View style={styles.conatiner}>
       <FlatList
-        data={laptops}
+        data={mobiles}
         keyExtractor={(laptops) => laptops.id}
         renderItem={({item}) => (
           <ProductCard
@@ -55,4 +55,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AllLaptopProducts;
+export default AllMobileProducts;

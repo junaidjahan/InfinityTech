@@ -1,11 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, Text, View, StyleSheet, ScrollView} from 'react-native';
-import AppListing from '../../../components/listing-component/AppListing';
+import LaptopAppListing from '../../../components/listing-component/LaptopAppListing';
 import colors from '../../../config/colors';
 import firestore from '@react-native-firebase/firestore';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import AllLaptopProducts from '../all-laptop-products/all-laptop-products';
 
 function LaptopProducts(props) {
   const [laptops, setLaptops] = useState();
@@ -25,7 +22,7 @@ function LaptopProducts(props) {
         data={laptops}
         keyExtractor={(laptops) => laptops.id}
         renderItem={({item}) => (
-          <AppListing title={item.title} icon="laptop-mac" />
+          <LaptopAppListing title={item.title} icon="laptop-mac" />
         )}
         ItemSeparatorComponent={() => (
           <View

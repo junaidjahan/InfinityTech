@@ -1,7 +1,8 @@
-import React from 'react';
 import {FlatList, Text, View, StyleSheet} from 'react-native';
-import AppListing from '../../../components/listing-component/AppListing';
+import MobileAppListing from '../../../components/listing-component/LaptopAppListing';
 import colors from '../../../config/colors';
+import React, {useEffect, useState} from 'react';
+import firestore from '@react-native-firebase/firestore';
 
 const messages = [
   {
@@ -47,13 +48,24 @@ const messages = [
 ];
 
 function MobileProducts(props) {
+  const [mobiles, setMobiles] = useState();
+
+  useEffect(() => {
+    const myData = async () => {
+      const snapshot = await firestore().collection('Mobile').get();
+      setMobiles(snapshot.docs.map((doc) => doc.data()));
+    };
+
+    myData();
+  }, []);
+
   return (
     <View style={style.container}>
       <FlatList
-        data={messages}
+        data={mobiles}
         keyExtractor={(message) => message.id}
         renderItem={({item}) => (
-          <AppListing title={item.title} icon="cellphone-iphone" />
+          <MobileAppListing title={item.title} icon="cellphone-iphone" />
         )}
         ItemSeparatorComponent={() => (
           <View

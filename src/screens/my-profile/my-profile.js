@@ -7,40 +7,33 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
 function MyProfile(props) {
-  const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState({});
-  const [star, setStar] = useState({});
-
-  function onAuthStateChanged(user) {
-    setUser(user);
-    if (initializing) setInitializing(false);
-  }
 
   useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    const myData = async () => {
-      // const snapshot = await firestore()
-      //   .collection('users')
-      //   .doc(user.email)
-      //   .get();
+    const subscriber = auth().onAuthStateChanged((user) => {
+      if (user) {
+        (async () => {
+          const snapshot = await firestore()
+            .collection('users')
+            .doc(user.email)
+            .get();
 
-      // setStar(snapshot.data());
-      const snapshot = await firestore().collection(myname).get();
-      setStar(snapshot.docs.map((doc) => doc.data())[0]);
-    };
-
-    myData();
-    console.log(star);
+          setUser(snapshot.data());
+        })();
+      } else {
+        alert('user is signed out');
+      }
+    });
 
     return subscriber; // unsubscribe on unmount
-  });
+  }, [user]);
 
   const signOut = () => {
     auth()
       .signOut()
       .then(() => console.log('User signed out!'));
   };
-  if (initializing) return null;
+
   return (
     <View style={styles.screen}>
       <View style={styles.container}>
@@ -52,16 +45,15 @@ function MyProfile(props) {
         />
         <Text style={styles.title}>Name</Text>
         <View style={styles.inputCard}>
-          <Text style={styles.data}>{star.UserName}</Text>
-          {/* <Text style={styles.data}>{JSON.stringify(star)}</Text> */}
+          <Text style={styles.data}>{user.UserName}</Text>
         </View>
         <Text style={styles.title}>Phone Number</Text>
         <View style={styles.inputCard}>
-          {/* <Text style={styles.data}>{star.Phone}</Text> */}
+          <Text style={styles.data}>{user.Phone}</Text>
         </View>
         <Text style={styles.title}>Email</Text>
         <View style={styles.inputCard}>
-          {/* <Text style={styles.data}>{star.Email}</Text> */}
+          <Text style={styles.data}>{user.Email}</Text>
         </View>
       </View>
       <TouchableHighlight
