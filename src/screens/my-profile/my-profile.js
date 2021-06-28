@@ -1,6 +1,11 @@
 import {View} from 'native-base';
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, TouchableHighlight} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  ActivityIndicator,
+} from 'react-native';
 import colors from '../../config/colors';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import auth from '@react-native-firebase/auth';
@@ -8,8 +13,9 @@ import firestore from '@react-native-firebase/firestore';
 
 function MyProfile(props) {
   const [user, setUser] = useState({});
-
+  const [activity, setActivity] = useState(false);
   useEffect(() => {
+    setActivity(true);
     const subscriber = auth().onAuthStateChanged((user) => {
       if (user) {
         (async () => {
@@ -17,13 +23,16 @@ function MyProfile(props) {
             .collection('users')
             .doc(user.email)
             .get();
-
           setUser(snapshot.data());
         })();
       } else {
         alert('user is signed out');
       }
     });
+
+    if (user.UserName) {
+      setActivity(false);
+    }
 
     return subscriber; // unsubscribe on unmount
   }, [user]);
@@ -36,6 +45,7 @@ function MyProfile(props) {
 
   return (
     <View style={styles.screen}>
+      {activity && <ActivityIndicator size="large" color={colors.primary} />}
       <View style={styles.container}>
         <MaterialCommunityIcons
           name="account-tie"

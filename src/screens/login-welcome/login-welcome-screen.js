@@ -1,15 +1,16 @@
 import React, {useState, useEffect} from 'react';
-import {ScrollView, StyleSheet, View, Text, Image} from 'react-native';
+import {ActivityIndicator, StyleSheet, View, Text, Image} from 'react-native';
 import colors from '../../config/colors';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 function LoginWelcomeScreen(props) {
   const [user, setUser] = useState({});
   const [image, setImage] = useState();
+  const [activity, setActivity] = useState(false);
 
   useEffect(() => {
+    setActivity(true);
     const subscriber = auth().onAuthStateChanged((user) => {
       if (user) {
         (async () => {
@@ -32,18 +33,15 @@ function LoginWelcomeScreen(props) {
         .get();
       setImage(image.data());
     })();
-
+    if (user.UserName) {
+      setActivity(false);
+    }
     return subscriber; // unsubscribe on unmount
   }, [user]);
 
   return (
     <View style={styles.mainView}>
-      {/* <MaterialCommunityIcons
-        name="account-tie"
-        size={150}
-        style={styles.icon}
-        color={colors.primary}
-      /> */}
+      {activity && <ActivityIndicator size="large" color={colors.primary} />}
       <Text style={styles.welcomeText}>Welcome </Text>
       <Text style={styles.userText}>{user.UserName} </Text>
       <Image

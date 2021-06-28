@@ -5,14 +5,9 @@ import {StyleSheet, Button, Text} from 'react-native';
 import LoginScreen from './src/screens/login-screen/LoginScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import CategoryScreen from './src/screens/category/CategoryScreen';
-import LaptopProducts from './src/screens/product/laptop-products/LaptopProducts';
-import MobileProducts from './src/screens/product/mobile-products/MobileProducts';
 import Welcome from './src/screens/welcome-screen/Welcome';
 import SignUpScreen from './src/screens/sign-up/SignUpScreen';
-import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -20,8 +15,6 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Animated, {useAnimatedStyle} from 'react-native-reanimated';
-import AllLaptopProducts from './src/screens/product/all-laptop-products/all-laptop-products';
 import {View} from 'native-base';
 import colors from './src/config/colors';
 import LoginWelcomeScreen from './src/screens/login-welcome/login-welcome-screen';
